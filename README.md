@@ -80,6 +80,90 @@ obj.fn()
 
 #### 7、什么是浅拷贝、深拷贝
 
+* 浅拷贝和深拷贝都是针对引用数据类型的拷贝方式
+* 浅拷贝复制的是某个对象的引用，并没有复制对象本身，新旧对象还是指向相同的对象内存空间。
+* 深拷贝复制的是对象本身，新旧对象指向独立的内存空间，修改互不影响
+
+#### 8、谈谈你是如何理解js异步编程的，Event Loop 是做什么的 什么是宏任务 ，什么是微任务
+
+ - js 是单线程语言，当前任务执行完成后 后面的任务再接着执行，但是这样会导致如果因为某段代码长时间运行，后面的其他任务就无法执行，
+ 所以为了解决这个问题，js 语言将任务的执行模式分成 同步模式，和异步模式，异步模式中每个任务会有一个回调函数，前一个任务完成后，
+ 执行回调函数，而其他任务不需要等待前一个任务执行完成就执行。这种异步模式的编程方法就叫做异步编程，常用的异步编程方法有 通过回调函数、promise、发布订阅。
+ - Event Loop 是js 事件执行机制，用来处理同步异步任务的执行顺序和时机
+ - 宏任务：整体代码script，setTimeout，setInterval
+ - 微任务：Promise，process.nextTick。
+
+
+ #### 9、将下面异步代码使用Promise改进
+
+ ```
+setTimeout(function () {
+  var a = 'hello';
+  setTimeout(function () {
+    var b = 'lagou';
+    setTimeout(function () {
+      var c = 'I love u';
+      console.log(a + b + c)
+    }, 10)
+  }, 10)
+}, 10)
+
+
+// 改进-----------------------------
+function a() {
+  return new Promise(function (resolve, reject) {
+    setTimeout(function () {
+      var a = 'hello';
+      resolve(a)
+    }, 10)
+  })
+}
+
+function b() {
+  return new Promise(function (resolve, reject) {
+    setTimeout(function () {
+      var b = 'lagou';
+      resolve(b)
+    }, 10)
+  })
+}
+
+function c() {
+  return new Promise(function (resolve, reject) {
+    setTimeout(function () {
+      var c = 'i love u';
+      resolve(c)
+    }, 10)
+  })
+}
+Promise.all([a(), b(), c()]).then(res => [
+  console.log(res.join(' '))
+])
+ 
+ ```
+
+ #### 10、简述 TypeScript 与javascript之间的关系 
+  
+- TypeScript是Javascript的超集，增加了类型系统，对es6做了扩展和新增。
+- ts无法在浏览器直接运行，最终要编译为javascript代码
+
+
+ #### 11、请谈谈你所认为的TypeScript 优缺点
+
+ * 优点
+   - 错误更早暴露
+   - 代码更智能，编码更准备
+   - 重构更牢靠
+   - 减少不必要的类型判断
+
+ * 缺点
+  - 新增了好多概念 有一定的学习成本
+  - 短期可能会增加一些开发成本，要多写一些类型的定义
+
+
+
+
+
 
 
 
